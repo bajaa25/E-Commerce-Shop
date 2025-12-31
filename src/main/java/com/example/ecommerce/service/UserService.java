@@ -2,16 +2,15 @@ package com.example.ecommerce.service;
 
 import java.sql.*;
 import java.util.*;
-import java.io.*;
-import com.example.ecommerce.model.User;
+
 import com.example.ecommerce.repository.OrderRepository;
+import com.example.ecommerce.model.User;
 
 // ❌ VULNERABLE DEPENDENCIES IN USE
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections.map.HashedMap;
-import org.springframework.web.util.UriUtils;
 
 /**
  * User service for managing users

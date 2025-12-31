@@ -1,5 +1,3 @@
-package com.example.ecommerce.controller;
-
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
