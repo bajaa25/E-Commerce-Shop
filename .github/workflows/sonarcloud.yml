@@ -43,6 +43,6 @@ jobs:
         run: |
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
             -Dsonar.projectKey=bajaa25_ECommerceShop \
-            -Dsonar.organization=bajaa25 \
+            -Dsonar.organization=kfrupse2025 \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.java.binaries=target/classes
