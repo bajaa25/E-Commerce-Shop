@@ -28,7 +28,6 @@ public class UserService {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -88,12 +87,16 @@ public class UserService {
 
     public String getUserFullName(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            logger.error("No User Found");
+            throw new Error("No User Found");
+        }
         return user.getFirstName() + " " + user.getLastName();
     }
 
     public double calculateUserDiscount(User user, double amount) {
         if (user.isPremium()) {
-            return amount * 0.9;  // Magic Number
+            return amount * 0.9; // Magic Number
         }
         return amount;
     }
@@ -145,7 +148,6 @@ public class UserService {
         logger.info("New password: " + newPassword);
     }
 
-
     public int getTotalUsers() {
         return getAllUsers().size();
     }
@@ -178,7 +180,7 @@ public class UserService {
         }
         return false;
     }
-    
+
     public String getDebugInfo() {
         return "DB Password: " + DB_PASSWORD + ", API Key: " + API_KEY;
     }

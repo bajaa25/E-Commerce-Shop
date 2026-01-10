@@ -60,13 +60,18 @@ public class OrderService {
 
         User user = userRepository.findById(userId).orElse(null);
 
+        if (user == null) {
+            logger.error("No User Found");
+            throw new Error("No User Found");
+        }
+
         Order order = new Order();
         order.setUser(user);
         order.setProductName(productName);
         order.setQuantity(quantity);
         order.setPrice(price);
 
-        double total = calculateTotal(price, quantity, user.isPremium());
+        double total = calculateTotal(price, quantity, user.isPremium() || false);
         order.setTotalAmount(total);
 
         return orderRepository.save(order);
@@ -103,7 +108,8 @@ public class OrderService {
                 order.setStatus(OrderStatus.CANCELLED);
                 orderRepository.save(order);
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     public void updateOrderStatus(Long orderId, OrderStatus status) {
